@@ -7,6 +7,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import static java.time.Duration.ofSeconds;
 
+/**
+ * Класс с методами явного ожидания
+ */
 public class Waiters {
 
     /**

@@ -5,19 +5,15 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
-
 import static org.testng.Assert.assertEquals;
 import static utils.ScreenHelper.makeScreenShot;
+import static utils.Waiters.waitUntilAlertIsPresent5;
 import static utils.Waiters.waitUntilToBeClickable5;
 
 /**
- * Класс в котором происходит взаимодействие со страницей FormFieldsPage
+ * Класс в котором происходит взаимодействие со страницей FormFieldsPage (https://practice-automation.com/form-fields/)
  */
 public class FormFieldsPage {
 
@@ -26,49 +22,77 @@ public class FormFieldsPage {
      */
     private final WebDriver driver;
     private int automationToolsCount;
-    //private int maxLengthSymbolsOfAutomationTools;
-    public Optional<Integer>  maxLengthSymbolsOfAutomationTools;
-    private String nameOfAutomationToolsWithMaxSymbols;
-    private String maxLengthSymbolsNameOfAutomationTools;
 
+    /**
+     * Элемент "Name" на странице
+     */
     @FindBy(xpath = "//input[@id='name-input']")
     private WebElement nameField;
 
+    /**
+     * Элемент "Password" на странице
+     */
     @FindBy(xpath = "//input[@type='password']")
     private WebElement passwordField;
 
+    /**
+     * Элемент checkbox "Milk" на странице
+     */
     @FindBy(xpath = "//input[@id='drink2']")
     private WebElement checkboxOfMilk;
 
+    /**
+     * Элемент checkbox "Coffee" на странице
+     */
     @FindBy(xpath = "//input[@id='drink3']")
     private WebElement checkboxOfCoffee;
 
+    /**
+     * Элемент radiobutton "Yellow" на странице
+     */
     @FindBy(xpath = "//input[@id='color3']")
     private WebElement radioOfYellow;
 
+    /**
+     * Элемент label "Do you like automation?" на странице
+     */
     @FindBy(xpath = "//label[text()='Do you like automation?']")
     private WebElement labelOfDoYouLikeAutomation;
 
+    /**
+     * Элемент select "Do you like automation?" на странице
+     */
     @FindBy(xpath = "//select[@id='automation']")
     private WebElement selectOfAutomation;
 
-
-
-    //@FindBy(xpath = "//label[text()='Automation tools']/ul")
+    /**
+     * Элемент unordered list "Automation tools" на странице
+     */
     @FindBy(xpath = "//form[@id='feedbackForm']/ul")
     private static WebElement automationToolsList;
 
+    /**
+     * Элемент "Email" на странице
+     */
     @FindBy(xpath = "//input[@id='email']")
     private WebElement emailField;
 
-
+    /**
+     * Элемент "Textarea" на странице
+     */
     @FindBy(xpath = "//textarea[@id='message']")
     private WebElement messageTextarea;
 
+    /**
+     * Элемент button "Submit" на странице
+     */
     @FindBy(xpath = "//button[@id='submit-btn']")
     private WebElement buttonSubmit;
 
-
+    /**
+     * Конструктор для FormFieldsPage
+     * @param driver
+     */
     public FormFieldsPage(final WebDriver driver){
         this.driver = driver;
 
@@ -76,6 +100,10 @@ public class FormFieldsPage {
         PageFactory.initElements(driver, this);
     }
 
+    /**
+     * Метод для ввода имени в поле Name
+     * @return FormFieldsPage
+     */
     @Step("Ввод имени в поле Name")
     public FormFieldsPage inputStringInNameField(String str) {
         nameField.click();
@@ -84,6 +112,10 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для ввода имени в поле Password
+     * @return FormFieldsPage
+     */
     @Step("Ввод пароля в поле Password")
     public FormFieldsPage inputStringInPasswordField(String str) {
         passwordField.click();
@@ -92,6 +124,10 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для клика на элемент checkbox Milk
+     * @return FormFieldsPage
+     */
     @Step("Выбор Milk из списка 'What is your favorite drink?'")
     public FormFieldsPage clickOnCheckboxOfMilk() {
         checkboxOfMilk.click();
@@ -99,6 +135,10 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для клика на элемент checkbox Coffee
+     * @return FormFieldsPage
+     */
     @Step("Выбор Coffee из списка 'What is your favorite drink?'")
     public FormFieldsPage clickOnCheckboxOfCoffee() {
         checkboxOfCoffee.click();
@@ -106,6 +146,10 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для клика на элемент radiobutton Yellow
+     * @return FormFieldsPage
+     */
     @Step("Выбор Yellow из списка 'What is your favorite color?'")
     public FormFieldsPage clickOnRadioOfYellow() {
         radioOfYellow.click();
@@ -113,24 +157,25 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для клика на элемент select 'Do you like automation?'
+     * @return FormFieldsPage
+     */
     @Step("Выбор варианта в поле 'Do you like automation?'")
     public FormFieldsPage clickOnSelectOfAutomation() throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].scrollIntoView();", labelOfDoYouLikeAutomation);
         waitUntilToBeClickable5(driver, selectOfAutomation);
-        Thread.sleep(2000);
         Select select = new Select(selectOfAutomation);
         select.selectByIndex(1);
         makeScreenShot(driver);
         return this;
     }
 
-
-
-
-
-
-
+    /**
+     * Метод для ввода имени в поле Email
+     * @return FormFieldsPage
+     */
     @Step("Ввод адреса эл.почты в поле Email")
     public FormFieldsPage inputStringInEmailField(String str) {
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -142,6 +187,10 @@ public class FormFieldsPage {
         return this;
     }
 
+    /**
+     * Метод для ввода в поле Message данных о кол-ве инстр-в и инст-те с наибольшим количеством символов, в пункте 'Automation tools'
+     * @return FormFieldsPage
+     */
     @Step("Ввод в поле Message кол-во инстр-в и инст-т с наибольшим количеством символов, в пункте Automation tools")
     public FormFieldsPage inputOnMessageTextarea() throws InterruptedException {
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -150,11 +199,14 @@ public class FormFieldsPage {
         messageTextarea.click();
         messageTextarea.sendKeys("Count of Automation Tools = " + countAutomationTools() +
                 ",\n Name Of Automation Tools With Max Symbols is '" + nameOfToolWithMaxLength() + "'.");
-        Thread.sleep(2000);
         makeScreenShot(driver);
         return this;
     }
 
+    /**
+     * Метод для клика на элемент button 'Submit'
+     * @return FormFieldsPage
+     */
     @Step("Click on Submit button")
     public FormFieldsPage clickOnButtonSubmit() {
         JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -164,12 +216,19 @@ public class FormFieldsPage {
         return this;
     }
 
-    public void alertInformationTest() {
+    /**
+     * Метод для проверки сообщения в alert окне
+     */
+    public void alertInformationTest() throws InterruptedException {
         Alert alert = driver.switchTo().alert();
         assertEquals(alert.getText(), "Message received!");
         alert.accept();
     }
 
+    /**
+     * Метод для расчета количества инструментов, описанных в пункте 'Automation tools'
+     * @return automationToolsCount
+     */
     public int countAutomationTools(){
         // Находим элементы списка по селектору (например, CSS или XPath)
         List<WebElement> elements = automationToolsList.findElements(By.tagName("li"));
@@ -181,30 +240,10 @@ public class FormFieldsPage {
         return automationToolsCount;
     }
 
-
-    public Integer nameOfAutomationToolsWithMaxSymbols(){
-        List<WebElement> elements = automationToolsList.findElements(By.tagName("li"));
-
-        //maxLengthSymbolsOfAutomationTools = Integer.MIN_VALUE;
-        maxLengthSymbolsOfAutomationTools = elements
-                .stream()
-                .map(s -> s.toString().length())
-                .max(Integer::compare);
-
-
-        if(maxLengthSymbolsOfAutomationTools.isPresent()){
-            //System.out.println(maxLengthSymbolsOfAutomationTools.get());
-            //return maxLengthSymbolsNameOfAutomationTools = String.valueOf(maxLengthSymbolsOfAutomationTools.get());
-            return maxLengthSymbolsOfAutomationTools.get();
-        }
-
-        /*int maxLengthSymbolsOfAutomationTool = 0;
-        maxLengthSymbolsOfAutomationTools.ifPresent(v -> maxLengthSymbolsOfAutomationTool);*/
-        //return maxLengthSymbolsNameOfAutomationTools;
-
-        return -1;
-    }
-
+    /**
+     * Метод для определния названия инструмента из списка 'Automation tools', содержащий наибольшее количество символов
+     * @return nameOfToolWithMaxLength
+     */
     public String nameOfToolWithMaxLength() {
         List<WebElement> elements = automationToolsList.findElements(By.tagName("li"));
         int maxLengthNameOfTool = 0;
@@ -217,5 +256,4 @@ public class FormFieldsPage {
         }
         return nameOfToolWithMaxLength;
     }
-
 }

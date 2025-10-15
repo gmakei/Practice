@@ -20,8 +20,6 @@ public class BaseTest {
      */
     private final BaseConfig config = ConfigFactory.create(BaseConfig.class, System.getenv());
 
-    private int automationToolsCount;
-
     /**
      * Общие настройки для всех тестов, перед выполнением каждого
      */
