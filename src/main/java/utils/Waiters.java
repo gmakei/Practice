@@ -14,7 +14,6 @@ public class Waiters {
 
     /**
      * Ожидает в течении 5 секунд появления элемента на странице и элемент будет кликабельным.
-     *
      * @param driver  экземпляр драйвера браузера
      * @param element элемент
      */
@@ -23,9 +22,13 @@ public class Waiters {
                 .until(ExpectedConditions.elementToBeClickable(element));
     }
 
-
-    public static void waitUntilAlertIsPresent5(final WebDriver driver, WebElement element) {
+    /**
+     * Ожидает в течении 5 секунд отображение элемента на странице.
+     * @param driver  экземпляр драйвера браузера
+     * @param element элемент
+     */
+    public static void waitElementIsVisibility5(final WebDriver driver, WebElement element) {
         new WebDriverWait(driver, ofSeconds(5))
-                .until(ExpectedConditions.alertIsPresent());
+                .until(ExpectedConditions.visibilityOf(element));
     }
 }

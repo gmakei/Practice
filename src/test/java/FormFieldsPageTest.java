@@ -17,12 +17,13 @@ public class FormFieldsPageTest extends BaseTest{
     private final PracticeAutomationTestsConfig config = ConfigFactory.create(
                                                         PracticeAutomationTestsConfig.class,
                                                                 System.getenv());
+
     @Test(description = "Проверка страницы формы с валидными данными. Позитивная проверка")
     @TmsLink("FFP-001")
     @Story("Позитивная проверка класса FormFieldsPageTest")
     @Severity(SeverityLevel.CRITICAL)
     @Owner("G.Makeev")
-    public void testFormFieldsPage() throws InterruptedException {
+    public void testFormFieldsPagePositive() throws InterruptedException {
         new FormFieldsPage(driver)
             .inputStringInNameField(config.inputName())
             .inputStringInPasswordField(config.inputPassword())
@@ -34,5 +35,24 @@ public class FormFieldsPageTest extends BaseTest{
             .inputOnMessageTextarea()
             .clickOnButtonSubmit()
             .alertInformationTest();
+    }
+
+    @Test(description = "Проверка страницы формы с незаполненным обязательным полем. Негативная проверка")
+    @TmsLink("FFP-002")
+    @Story("Негативная проверка класса FormFieldsPageTest")
+    @Severity(SeverityLevel.CRITICAL)
+    @Owner("G.Makeev")
+    public void testFormFieldsPageNegative() throws InterruptedException {
+        new FormFieldsPage(driver)
+                .inputStringInNameField()
+                .inputStringInPasswordField(config.inputPassword())
+                .clickOnCheckboxOfMilk()
+                .clickOnCheckboxOfCoffee()
+                .clickOnRadioOfYellow()
+                .clickOnSelectOfAutomation()
+                .inputStringInEmailField(config.inputEmail())
+                .inputOnMessageTextarea()
+                .clickOnButtonSubmit()
+                .scrollToNameField();
     }
 }

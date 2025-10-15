@@ -6,10 +6,10 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import java.util.List;
-import java.util.Optional;
+
 import static org.testng.Assert.assertEquals;
 import static utils.ScreenHelper.makeScreenShot;
-import static utils.Waiters.waitUntilAlertIsPresent5;
+import static utils.Waiters.waitElementIsVisibility5;
 import static utils.Waiters.waitUntilToBeClickable5;
 
 /**
@@ -90,6 +90,12 @@ public class FormFieldsPage {
     private WebElement buttonSubmit;
 
     /**
+     * Элемент заголовка h1 на странице
+     */
+    @FindBy(xpath = "//h1[@itemprop='headline']")
+    private WebElement h1Headline;
+
+    /**
      * Конструктор для FormFieldsPage
      * @param driver
      */
@@ -108,6 +114,29 @@ public class FormFieldsPage {
     public FormFieldsPage inputStringInNameField(String str) {
         nameField.click();
         nameField.sendKeys(str);
+        makeScreenShot(driver);
+        return this;
+    }
+
+    /**
+     * Метод для скролла страницы к полю Name
+     */
+    @Step("Скролл страницы к полю Name")
+    public void scrollToNameField() throws InterruptedException {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].scrollIntoView();", h1Headline);
+        //waitElementIsVisibility5(driver, nameField);// не успевает создать скриншот поля Name
+        Thread.sleep(2000);// Использован чтобы создать скриншот поля Name
+        makeScreenShot(driver);
+    }
+
+    /**
+     * Метод для ввода имени в поле Name
+     * @return FormFieldsPage
+     */
+    @Step("Клик по полю Name и НЕ заполнение данного поля")
+    public FormFieldsPage inputStringInNameField() {
+        nameField.click();
         makeScreenShot(driver);
         return this;
     }
